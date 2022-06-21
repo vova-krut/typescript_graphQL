@@ -9,6 +9,7 @@ import {
     ApolloServerPluginLandingPageGraphQLPlayground,
     ApolloServerPluginLandingPageProductionDefault,
 } from "apollo-server-core";
+import { connectToMongo } from "./utils/mongo";
 
 dotenv.config();
 
@@ -36,6 +37,7 @@ async function bootstrap() {
     await server.start();
     server.applyMiddleware({ app });
     app.listen(PORT, () => console.log(`App is listening on port ${PORT}`));
+    connectToMongo();
 }
 
 bootstrap();
