@@ -1,3 +1,4 @@
+import { resolvers } from "./resolvers/index";
 import { ApolloServer } from "apollo-server-express";
 import dotenv from "dotenv";
 import "reflect-metadata";
@@ -15,8 +16,8 @@ const PORT = process.env.PORT || 5000;
 
 async function bootstrap() {
     const schema = await buildSchema({
-        resolvers, //TODO
-        authChecker, //TODO
+        resolvers,
+        //authChecker, //TODO
     });
     const app = express();
     app.use(cookieParser());
