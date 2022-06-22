@@ -25,7 +25,6 @@ async function bootstrap() {
     const server = new ApolloServer({
         schema,
         context: (ctx) => {
-            console.log(ctx);
             return ctx;
         },
         plugins: [
