@@ -1,3 +1,4 @@
+import { User } from "./schema/user.schema";
 import { resolvers } from "./resolvers/index";
 import { ApolloServer } from "apollo-server-express";
 import dotenv from "dotenv";
@@ -10,6 +11,8 @@ import {
     ApolloServerPluginLandingPageProductionDefault,
 } from "apollo-server-core";
 import { connectToMongo } from "./utils/mongo";
+import { verifyJwt } from "./utils/jwt";
+import Context from "./types/Context";
 
 dotenv.config();
 
@@ -24,7 +27,12 @@ async function bootstrap() {
     app.use(cookieParser());
     const server = new ApolloServer({
         schema,
-        context: (ctx) => {
+        context: (ctx: Context) => {
+            if (ctx.req.cookies.accessToken) {
+                console.log(1);
+                const user = verifyJwt<User>(ctx.req.cookies.accessToken);
+                ctx.user = user;
+            }
             return ctx;
         },
         plugins: [

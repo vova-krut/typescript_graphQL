@@ -33,10 +33,9 @@ export default class UserService {
             httpOnly: true,
             domain: "localhost",
             path: "/",
-            sameSite: "none",
+            sameSite: "strict",
             secure: process.env.NODE_ENV === "production",
         });
-        console.log(context.req.cookies.accessToken);
         return token;
     }
 }
