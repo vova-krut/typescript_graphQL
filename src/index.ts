@@ -13,6 +13,7 @@ import {
 import { connectToMongo } from "./utils/mongo";
 import { verifyJwt } from "./utils/jwt";
 import Context from "./types/Context";
+import authChecker from "./utils/authChecker";
 
 dotenv.config();
 
@@ -21,7 +22,7 @@ const PORT = process.env.PORT || 5000;
 async function bootstrap() {
     const schema = await buildSchema({
         resolvers,
-        //authChecker, //TODO
+        authChecker,
     });
     const app = express();
     app.use(cookieParser());
@@ -29,7 +30,6 @@ async function bootstrap() {
         schema,
         context: (ctx: Context) => {
             if (ctx.req.cookies.accessToken) {
-                console.log(1);
                 const user = verifyJwt<User>(ctx.req.cookies.accessToken);
                 ctx.user = user;
             }
